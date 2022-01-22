@@ -1,19 +1,20 @@
 import os
-import pickle
+import json
 
-#test
-
-if os.path.isfile('./passList.pkl'):
-    with open('passList.pkl', 'rb') as f:
-        passList = pickle.load(f)
+if os.path.isfile('./encryptedPassList.json'):
+    with open('encryptedPassList.json', 'r') as infile:
+        passList = json.load(infile)
+        print(passList)
 else:
     passList = {}
     print('No password file found, creating now...')
 
 
 def savepass():
-    with open('passList.pkl', 'wb') as f:
-        pickle.dump(passList, f)
+    passListOutput = json.dumps(passList)
+    print(passListOutput)
+    with open("encryptedPassList.json", "w") as outfile:
+        outfile.write(passListOutput)
 
 
 while 1:
@@ -33,7 +34,7 @@ while 1:
             serviceToSave = str(input('Service: '))
             passToSave = str(input('Password: '))
             passList[serviceToSave] = passToSave
-            print('saved!')
+            print('Saved!')
             savepass()
             print('')
             input("Press Enter to continue...")
@@ -61,7 +62,10 @@ while 1:
             input("Press Enter to continue...")
         case '4':
             print('')
-            print(list(passList.keys()))
+            if str(list(passList.keys())) != '[]':
+                print(list(passList.keys()))
+            else:
+                print('No services or passwords exist!')
             input("Press Enter to continue...")
         case '5':
             break
