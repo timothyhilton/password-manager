@@ -24,7 +24,8 @@ while 1:
     print('5: Exit')
     print('')
 
-    match str(input()):
+    operation = str(input())
+    match operation:
         case '1':
             print('')
             serviceToSave = str(input('Service: '))
