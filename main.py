@@ -1,10 +1,31 @@
 import os
 import json
+from hashlib import sha256
+
+
+def hashstr(hashed):
+    return sha256(hashed.encode('utf-8')).hexdigest()
+
+
+if os.path.isfile('./hashedMasterPassword.txt'):
+    while 1:
+        masterPassword = str(input('Master password: '))
+        hashedMasterPassword = str(open('hashedMasterPassword.txt','r').readlines())
+        if hashstr(masterPassword) == hashedMasterPassword.strip("[']"):
+            print('Success!')
+            break
+        else:
+            print('Try again')
+else:
+    masterPassword = str(input('No master password detected, please specify one now: '))
+    hashedMasterFile = open("./hashedMasterPassword.txt", "w")
+
+    hashedMasterFile.write(hashstr(masterPassword))
+    hashedMasterFile.close()
 
 if os.path.isfile('./encryptedPassList.json'):
     with open('encryptedPassList.json', 'r') as infile:
         passList = json.load(infile)
-        print(passList)
 else:
     passList = {}
     print('No password file found, creating now...')
@@ -12,7 +33,6 @@ else:
 
 def savepass():
     passListOutput = json.dumps(passList)
-    print(passListOutput)
     with open("encryptedPassList.json", "w") as outfile:
         outfile.write(passListOutput)
 
