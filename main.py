@@ -1,6 +1,7 @@
 import os
 import json
 from hashlib import sha256
+import pyAesCrypt
 
 
 def hashstr(hashed):
@@ -23,8 +24,14 @@ else:
     hashedMasterFile.write(hashstr(masterPassword))
     hashedMasterFile.close()
 
-if os.path.isfile('./encryptedPassList.json'):
-    with open('encryptedPassList.json', 'r') as infile:
+if os.path.isfile('PassList.json'):
+    print('FATAL ERROR: UNENCRYPTED PASS LIST DETECTED, PLEASE ONLY EXIT USING THE PROVIDED OPTION')
+    input("By pressing enter, you agree that terminating the program both jeopardizes your security and also stops the "
+          "program from saving correctly: ")
+
+if os.path.isfile('EncryptedPassList.aes'):
+    pyAesCrypt.decryptFile("EncryptedPassList.aes", "PassList.json", masterPassword)
+    with open('PassList.json', 'r') as infile:
         passList = json.load(infile)
 else:
     passList = {}
@@ -33,7 +40,7 @@ else:
 
 def savepass():
     passListOutput = json.dumps(passList)
-    with open("encryptedPassList.json", "w") as outfile:
+    with open("PassList.json", "w") as outfile:
         outfile.write(passListOutput)
 
 
@@ -91,3 +98,5 @@ while 1:
             break
 
 savepass()
+pyAesCrypt.encryptFile("PassList.json", "EncryptedPassList.aes", masterPassword)
+os.remove("PassList.json")
