@@ -31,31 +31,16 @@ if os.path.isfile('PassList.json'):
           "program from saving correctly: ")
 
 if os.path.isfile('EncryptedPassList.aes'):
-    # use default buffer size
-    bufferSize = 64 * 1024
 
     infile = "EncryptedPassList.aes"
-
     with open(infile, "rb") as fCiph:
 
-        # initialize decrypted binary stream
         fDec = io.BytesIO()
-
-        # get ciphertext length
         inputFileSize = os.stat(infile).st_size
+        pyAesCrypt.decryptStream(fCiph, fDec, masterPassword, 64 * 1024, inputFileSize)
 
-        # decrypt stream
-        pyAesCrypt.decryptStream(fCiph, fDec, masterPassword, bufferSize, inputFileSize)
-
-        # print decrypted data
-        thing = fDec.getvalue()
-        print("Decrypted data:\n" + str(thing))
-        #print(str(fDec.read()))
-#    pyAesCrypt.decryptFile("EncryptedPassList.aes", "PassList.json", masterPassword)
-#    with open('PassList.json', 'r') as infile:
         fDec.seek(0)
         passList = json.loads(fDec.read())
-        print(str(passList))
 else:
     passList = {}
     print('No password file found, creating now...')
