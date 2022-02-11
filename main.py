@@ -48,8 +48,10 @@ else:
 
 def savepass():
     passListOutput = json.dumps(passList)
-    with open("PassList.json", "w") as outfile:
-        outfile.write(passListOutput)
+    with open("EncryptedPassList.aes", "wb") as fOut:
+        fIn = io.BytesIO(bytes(passListOutput, 'utf-8'))
+        fIn.seek(0)
+        pyAesCrypt.encryptStream(fIn, fOut, masterPassword, 64 * 1024)
 
 
 while 1:
@@ -106,5 +108,3 @@ while 1:
             break
 
 savepass()
-pyAesCrypt.encryptFile("PassList.json", "EncryptedPassList.aes", masterPassword)
-os.remove("PassList.json")
