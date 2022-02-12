@@ -9,10 +9,10 @@ def hashstr(hashed):
     return sha256(hashed.encode('utf-8')).hexdigest()
 
 
-if os.path.isfile('./hashedMasterPassword.txt'):
+if os.path.isfile('hashedMasterPassword.hash'):
     while 1:
         masterPassword = str(input('Master password: '))
-        hashedMasterPassword = str(open('hashedMasterPassword.txt','r').readlines())
+        hashedMasterPassword = str(open('hashedMasterPassword.hash', 'r').readlines())
         if hashstr(masterPassword) == hashedMasterPassword.strip("[']"):
             print('Success!')
             break
@@ -20,7 +20,7 @@ if os.path.isfile('./hashedMasterPassword.txt'):
             print('Try again')
 else:
     masterPassword = str(input('No master password detected, please specify one now: '))
-    hashedMasterFile = open("./hashedMasterPassword.txt", "w")
+    hashedMasterFile = open("hashedMasterPassword.hash", "w")
 
     hashedMasterFile.write(hashstr(masterPassword))
     hashedMasterFile.close()
