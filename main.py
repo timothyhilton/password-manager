@@ -65,46 +65,48 @@ while 1:
     print('')
 
     operation = str(input())
-    match operation:
-        case '1':
-            print('')
-            serviceToSave = str(input('Service: '))
-            passToSave = str(input('Password: '))
-            passList[serviceToSave] = passToSave
-            print('Saved!')
+    if operation == str(1):
+        print('')
+        serviceToSave = str(input('Service: '))
+        passToSave = str(input('Password: '))
+        passList[serviceToSave] = passToSave
+        print('Saved!')
+        savepass()
+        print('')
+        input("Press Enter to continue...")
+    elif operation == str(2):
+        print('')
+        serviceToDelete = str(input('Service to delete: '))
+        if serviceToDelete in passList:
+            passList.pop(serviceToDelete)
             savepass()
+            print('success!')
             print('')
             input("Press Enter to continue...")
-        case '2':
-            print('')
-            serviceToDelete = str(input('Service to delete: '))
-            if serviceToDelete in passList:
-                passList.pop(serviceToDelete)
-                savepass()
-                print('success!')
-                print('')
-                input("Press Enter to continue...")
-            else:
-                print(serviceToDelete + " doesn't exist! Please retry")
-                print('')
-                input("Press Enter to continue...")
-        case '3':
-            print('')
-            serviceToCheck = str(input('Service: '))
-            if serviceToCheck in passList:
-                print("Password: " + passList[serviceToCheck])
-            else:
-                print(serviceToCheck + " Doesn't Exist!")
+        else:
+            print(serviceToDelete + " doesn't exist! Please retry")
             print('')
             input("Press Enter to continue...")
-        case '4':
-            print('')
-            if str(list(passList.keys())) != '[]':
-                print(list(passList.keys()))
-            else:
-                print('No services or passwords exist!')
-            input("Press Enter to continue...")
-        case '5':
-            break
+    elif operation == str(3):
+        print('')
+        serviceToCheck = str(input('Service: '))
+        if serviceToCheck in passList:
+            print("Password: " + passList[serviceToCheck])
+        else:
+            print(serviceToCheck + " Doesn't Exist!")
+        print('')
+        input("Press Enter to continue...")
+    elif operation == str(4):
+        print('')
+        if str(list(passList.keys())) != '[]':
+            print(list(passList.keys()))
+        else:
+            print('No services or passwords exist!')
+        input("Press Enter to continue...")
+    elif operation == str(5):
+        break
+    else:
+        print(operation + " is not a valid option, please press enter to continue")
+        input('')
 
 savepass()
