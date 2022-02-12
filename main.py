@@ -25,11 +25,6 @@ else:
     hashedMasterFile.write(hashstr(masterPassword))
     hashedMasterFile.close()
 
-if os.path.isfile('PassList.json'):
-    print('FATAL ERROR: UNENCRYPTED PASS LIST DETECTED, PLEASE ONLY EXIT USING THE PROVIDED OPTION')
-    input("By pressing enter, you agree that terminating the program both jeopardizes your security and also stops the "
-          "program from saving correctly: ")
-
 if os.path.isfile('EncryptedPassList.aes'):
 
     infile = "EncryptedPassList.aes"
